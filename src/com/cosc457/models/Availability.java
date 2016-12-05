@@ -14,7 +14,7 @@ public class Availability {
     private Time startTime;
     private Time endTime;
 
-    public Availability(int employeeID) {
+    public Availability(int employeeID, int weekDay, Time startTime, Time endTime) {
         this.employeeID = employeeID;
         this.weekDay = weekDay;
         this.startTime = startTime;

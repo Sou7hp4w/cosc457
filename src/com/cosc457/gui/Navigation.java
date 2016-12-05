@@ -59,6 +59,7 @@ public class Navigation extends JPanel{
             public void actionPerformed(ActionEvent actionEvent) {
                 remove(getComponent(0));
                 add(viewEmployee.getPanel());
+                viewEmployee.load();
                 redraw();
             }
         });
@@ -72,12 +73,13 @@ public class Navigation extends JPanel{
         });
     }
 
-    public void goBack(){
-        remove(getComponent(0));
-
+    public void goBack(JPanel p){
+       remove(p);
+        add(navigationPanel);
+        redraw();
     }
 
-    private void redraw(){
+    public void redraw(){
         repaint();
         revalidate();
     }

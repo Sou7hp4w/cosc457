@@ -21,6 +21,12 @@ public class AddEmployee extends JPanel{
 
     public AddEmployee(){
         initSaveButton();
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+               Navigation.getInstance().goBack(panel1);
+            }
+        });
     }
 
     public JPanel getPanel(){

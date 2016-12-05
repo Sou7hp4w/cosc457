@@ -1,10 +1,14 @@
 package com.cosc457.gui;
 
+import com.cosc457.data.AvailabilityApi;
 import com.cosc457.data.EmployeeApi;
+import com.cosc457.models.Availability;
 import com.cosc457.models.Employee;
 import com.cosc457.util.DateUtil;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.util.ArrayList;
 
@@ -34,6 +38,13 @@ public class AddAvailability extends JPanel {
         endTimeSpinner.setModel( new SpinnerListModel(DateUtil.getTimes()));
 
         setupSaveButton();
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Navigation.getInstance().goBack(panel);
+            }
+        });
+
     }
 
     public JPanel getPanel(){
@@ -41,10 +52,17 @@ public class AddAvailability extends JPanel {
     }
 
     private void setupSaveButton(){
-        int id = EmployeeApi.getEmployeeByName(employeeSpinner.getValue().toString()).getID();
-        int weekday = DateUtil.getWeekdays().indexOf(weekDaySpinner.getValue());
-        //Time startTime = new Time(startTimeSpinner.getValue().toString());
-        //new AddAvailability(, , startTimeSpinner.getValue().toString(), endTimeSpinner.getValue().toString());
+        saveAndAddAnotherButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int id = EmployeeApi.getEmployeeByName(employeeSpinner.getValue().toString()).getID();
+                int weekday = DateUtil.getWeekdays().indexOf(weekDaySpinner.getValue());
+                Time startTime = DateUtil.getTimeFromString(startTimeSpinner.getValue().toString());
+                Time endTime = DateUtil.getTimeFromString(endTimeSpinner.getValue().toString());
+                AvailabilityApi.saveAvailability(new Availability(id, weekday, startTime, endTime));
+            }
+        });
+
     }
 
 

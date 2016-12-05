@@ -1,6 +1,11 @@
 package com.cosc457.util;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by donnie on 11/30/16.
@@ -38,6 +43,18 @@ public class DateUtil {
         }
         return times;
     }
+
+    public static Time getTimeFromString(String t){
+        DateFormat format = new SimpleDateFormat("hh:mm aa");
+        try {
+            return new Time(format.parse(t).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 
 
