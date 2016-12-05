@@ -15,11 +15,13 @@ public class Navigation extends JPanel{
     AddEmployee addEmployee = new AddEmployee();
     ViewEmployee viewEmployee = new ViewEmployee();
     AddAvailability addAvailability = new AddAvailability();
+    ViewAvailability viewAvailability = new ViewAvailability();
 
     public static Navigation INSTANCE;
     private JButton addEmployeeButton;
     private JButton viewEmployeesButton;
     private JButton addAvailabilityButton;
+    private JButton viewAvailabilityButton;
 
     private Navigation(){
         super(new BorderLayout());
@@ -40,9 +42,11 @@ public class Navigation extends JPanel{
         addEmployeeButton = new JButton("Add Employee");
         viewEmployeesButton = new JButton("View Employees");
         addAvailabilityButton = new JButton("Add Availability");
+        viewAvailabilityButton = new JButton("View Availability");
         navigationPanel.add(addEmployeeButton);
         navigationPanel.add(viewEmployeesButton);
         navigationPanel.add(addAvailabilityButton);
+        navigationPanel.add(viewAvailabilityButton);
     }
 
     private void initListeners(){
@@ -68,6 +72,15 @@ public class Navigation extends JPanel{
             public void actionPerformed(ActionEvent actionEvent) {
                 remove(getComponent(0));
                 add(addAvailability.getPanel());
+                redraw();
+            }
+        });
+        viewAvailabilityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                remove(getComponent(0));
+                add(viewAvailability.getPanel());
+                viewAvailability.load();
                 redraw();
             }
         });

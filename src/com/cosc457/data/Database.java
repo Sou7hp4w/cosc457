@@ -1,5 +1,6 @@
 package com.cosc457.data;
 
+import com.cosc457.models.Availability;
 import com.cosc457.models.Employee;
 
 import javax.swing.plaf.nimbus.State;
@@ -68,7 +69,11 @@ public class Database {
         Statement stmt = connection.createStatement();
         ResultSet set = stmt.executeQuery(query);
         while(set.next()){
-            results.add(parseEmployee(set));
+            if(type.equals(Employee.class)){
+                results.add(parseEmployee(set));
+            }else if(type.equals(Availability.class)){
+                results.add(parseAvailability(set));
+            }
 
         }
         return results;
@@ -77,6 +82,9 @@ public class Database {
 
     private Employee parseEmployee(ResultSet set) throws SQLException {
         return new Employee(set.getString("firstName"), set.getString("lastName"), set.getInt("maxHours"), set.getInt("ID"));
+    }
+    private Availability parseAvailability(ResultSet set) throws SQLException{
+        return new Availability(set.getInt("ID"), set.getInt("employeeID"),set.getInt("weekDay"), set.getTime("startTime"), set.getTime("endTime"));
     }
 
 }

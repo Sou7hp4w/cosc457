@@ -54,6 +54,16 @@ public class DateUtil {
         return null;
     }
 
+    public static String getPrettyTime(Time t){
+        DateFormat format = new SimpleDateFormat("hh:mm aa");
+        try{
+            return new String(format.format(t));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 
 

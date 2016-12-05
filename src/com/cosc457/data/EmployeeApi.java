@@ -4,6 +4,7 @@ import com.cosc457.models.Employee;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by donnie on 11/30/16.
@@ -54,6 +55,14 @@ public class EmployeeApi {
             }
         }
         return null;
+    }
+
+    public static HashMap<Integer, Employee> getEmployeeIdMap(){
+        HashMap<Integer, Employee> map = new HashMap<Integer, Employee>();
+        for(Employee e : getAllEmployees()){
+            map.put(e.getID(), e);
+        }
+        return map;
     }
 
 }
