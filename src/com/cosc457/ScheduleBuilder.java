@@ -6,6 +6,7 @@ import com.cosc457.models.Availability;
 import com.cosc457.models.Employee;
 import com.cosc457.models.Schedule;
 import com.cosc457.models.WorkDay;
+import com.cosc457.util.DateUtil;
 
 import java.util.ArrayList;
 
@@ -23,20 +24,18 @@ public class ScheduleBuilder {
     }
 
     public void build(){
-
-    }
-
-    private void breakdown(){
         for(WorkDay day : WorkDay.getWorkDays()){
             for(Availability a : availabilities){
                 if(a.getWeekDay() == day.getDay()){
-                    for(int hour = a.getStartTime().getHours(); hour < a.getEndTime().getHours(); hour++){
-                        //if(day.needsFilled(hour, a)){
-
-                        //}
+                    for(double startTime = DateUtil.get100OffsetTime(a.getStartTime()); startTime < DateUtil.get100OffsetTime(a.getEndTime()); startTime+=.25){
+                        if(day.needsFilled(startTime)){
+                            System.out.println("NEED TO FILL " + startTime);
+                            day.fill(startTime, a);
+                        }
                     }
                 }
             }
+            day.printPretty();
         }
     }
 

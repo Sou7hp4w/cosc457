@@ -3,6 +3,7 @@ package com.cosc457.models;
 import com.cosc457.data.EmployeeApi;
 
 import java.sql.Time;
+import java.util.HashMap;
 
 /**
  * Created by donnie on 11/30/16.
@@ -69,9 +70,12 @@ public class Availability {
         this.endTime = endTime;
     }
 
+
+
     public Employee retrieveEmployee(){
         return EmployeeApi.getById(employeeID);
     }
+
 
     @Override
     public String toString(){

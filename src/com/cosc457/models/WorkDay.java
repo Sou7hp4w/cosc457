@@ -1,5 +1,7 @@
 package com.cosc457.models;
 
+import com.cosc457.util.DateUtil;
+
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -11,39 +13,36 @@ import java.util.HashMap;
  */
 public class WorkDay {
     private int day;
-    private HashMap<Double,Availability> hours;
+    private HashMap<Double,AvailabilityBundle> timeAvailabilityMap;
     public WorkDay(int number){
+        timeAvailabilityMap = new HashMap<Double, AvailabilityBundle>();
         day = number;
         genMap();
     }
 
     private void genMap(){
-        for(double i = 7; i < 18; i = i+.25){
-            hours.put(i, null);
+        for(double i = 7.00; i < 18.00; i+=.25){
+            timeAvailabilityMap.put(i, new AvailabilityBundle());
         }
     }
-
-    public void scheduleEmployee(Availability a){
-
-    }
-
 
     public int getDay() {
         return day;
     }
 
-    public boolean needsFilled(Availability a){
-        ArrayList<Integer> availableHours = new ArrayList<Integer>();
-        for(int start = a.getStartTime().getHours(); start < a.getEndTime().getHours(); start++){
-            availableHours.add(start);
-        }
-        for(int hour : availableHours){
-            if(hours.get(hour) != null){
-               // hours.put(hour, a);
+    public void fill(double time, Availability a){
+        AvailabilityBundle bundle = timeAvailabilityMap.get(time);
+        if(bundle != null){
+            if(bundle.needsManager() && a.retrieveEmployee().isManager()){
+                bundle.setManager(a);
+            }else if(bundle.needsStaff()){
+                bundle.setStaff(a);
             }
         }
+    }
 
-        return false;
+    public boolean needsFilled(double key){
+        return timeAvailabilityMap.get(key) == null || timeAvailabilityMap.get(key).needsFilled();
     }
 
     public static ArrayList<WorkDay> getWorkDays(){
@@ -55,5 +54,14 @@ public class WorkDay {
         days.add(new WorkDay(DayOfWeek.FRIDAY.getValue()));
 
         return days;
+    }
+
+    public HashMap<Double, AvailabilityBundle> getAvailabilityMap(){
+        return timeAvailabilityMap;
+    }
+    public void printPretty(){
+        for(Double d : timeAvailabilityMap.keySet()){
+            System.out.println(d +" "+ timeAvailabilityMap.get(d));
+        }
     }
 }

@@ -64,6 +64,10 @@ public class DateUtil {
         return null;
     }
 
+    public static double get100OffsetTime(Time t){
+        return (t.getHours() + (t.getMinutes()/60));
+    }
+
 
 
 

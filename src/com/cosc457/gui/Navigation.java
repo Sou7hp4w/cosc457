@@ -1,5 +1,6 @@
 package com.cosc457.gui;
 
+import com.cosc457.ScheduleBuilder;
 import com.cosc457.data.SeedData;
 
 import javax.swing.*;
@@ -104,7 +105,7 @@ public class Navigation extends JPanel{
         generateScheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                new ScheduleBuilder().build();
             }
         });
     }
