@@ -53,6 +53,16 @@ public class DateUtil {
         }
         return null;
     }
+    public static Time getTimeFromDouble(double t){
+        String time = String.valueOf(t).replace(".",":");
+        DateFormat format = new SimpleDateFormat("HH:mm");
+        try {
+            return new Time(format.parse(time).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static String getPrettyTime(Time t){
         DateFormat format = new SimpleDateFormat("hh:mm aa");
