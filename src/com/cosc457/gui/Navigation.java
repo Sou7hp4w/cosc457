@@ -1,5 +1,7 @@
 package com.cosc457.gui;
 
+import com.cosc457.data.SeedData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +24,8 @@ public class Navigation extends JPanel{
     private JButton viewEmployeesButton;
     private JButton addAvailabilityButton;
     private JButton viewAvailabilityButton;
+    private JButton generateSeedDataButton;
+    private JButton generateScheduleButton;
 
     private Navigation(){
         super(new BorderLayout());
@@ -43,10 +47,14 @@ public class Navigation extends JPanel{
         viewEmployeesButton = new JButton("View Employees");
         addAvailabilityButton = new JButton("Add Availability");
         viewAvailabilityButton = new JButton("View Availability");
+        generateSeedDataButton = new JButton("Generate Seed Data");
+        generateScheduleButton = new JButton("Generate Schedule");
         navigationPanel.add(addEmployeeButton);
         navigationPanel.add(viewEmployeesButton);
         navigationPanel.add(addAvailabilityButton);
         navigationPanel.add(viewAvailabilityButton);
+        navigationPanel.add(generateSeedDataButton);
+        navigationPanel.add(generateScheduleButton);
     }
 
     private void initListeners(){
@@ -72,6 +80,7 @@ public class Navigation extends JPanel{
             public void actionPerformed(ActionEvent actionEvent) {
                 remove(getComponent(0));
                 add(addAvailability.getPanel());
+                addAvailability.load();
                 redraw();
             }
         });
@@ -82,6 +91,20 @@ public class Navigation extends JPanel{
                 add(viewAvailability.getPanel());
                 viewAvailability.load();
                 redraw();
+            }
+        });
+        generateSeedDataButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                SeedData.seed();
+                JLabel done = new JLabel("Done - seed data has been generated");
+                navigationPanel.add(done);
+            }
+        });
+        generateScheduleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
             }
         });
     }

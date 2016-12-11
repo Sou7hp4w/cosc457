@@ -11,14 +11,14 @@ import java.util.HashMap;
  */
 public class WorkDay {
     private int day;
-    private HashMap<Integer,Availability> hours;
+    private HashMap<Double,Availability> hours;
     public WorkDay(int number){
         day = number;
         genMap();
     }
 
     private void genMap(){
-        for(int i = 7; i < 18; i++){
+        for(double i = 7; i < 18; i = i+.25){
             hours.put(i, null);
         }
     }
@@ -39,7 +39,7 @@ public class WorkDay {
         }
         for(int hour : availableHours){
             if(hours.get(hour) != null){
-                hours.put(hour, a);
+               // hours.put(hour, a);
             }
         }
 

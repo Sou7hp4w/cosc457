@@ -25,17 +25,7 @@ public class AddAvailability extends JPanel {
     private JButton saveAndAddAnotherButton;
 
     public AddAvailability(){
-        ArrayList<String> employeeNames = new ArrayList<String>();
-        for(Employee e : EmployeeApi.getAllEmployees()){
-            employeeNames.add(e.getFullName());
-        }
-        SpinnerListModel names = new SpinnerListModel(employeeNames);
-        employeeSpinner.setModel(names);
 
-        SpinnerListModel days = new SpinnerListModel(DateUtil.getWeekdays());
-        weekDaySpinner.setModel(days);
-        startTimeSpinner.setModel( new SpinnerListModel(DateUtil.getTimes()));
-        endTimeSpinner.setModel( new SpinnerListModel(DateUtil.getTimes()));
 
         setupSaveButton();
         backButton.addActionListener(new ActionListener() {
@@ -62,7 +52,19 @@ public class AddAvailability extends JPanel {
                 AvailabilityApi.saveAvailability(new Availability(id, weekday, startTime, endTime));
             }
         });
+    }
+    public void load(){
+        ArrayList<String> employeeNames = new ArrayList<String>();
+        for(Employee e : EmployeeApi.getAllEmployees()){
+            employeeNames.add(e.getFullName());
+        }
+        SpinnerListModel names = new SpinnerListModel(employeeNames);
+        employeeSpinner.setModel(names);
 
+        SpinnerListModel days = new SpinnerListModel(DateUtil.getWeekdays());
+        weekDaySpinner.setModel(days);
+        startTimeSpinner.setModel( new SpinnerListModel(DateUtil.getTimes()));
+        endTimeSpinner.setModel( new SpinnerListModel(DateUtil.getTimes()));
     }
 
 

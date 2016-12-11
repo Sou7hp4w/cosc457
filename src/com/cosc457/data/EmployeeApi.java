@@ -13,9 +13,9 @@ public class EmployeeApi {
     private static Database database = Database.getInstance();
 
     public static void saveEmployee(Employee e){
-        String values = "'"+e.getFirstName() + "', '" + e.getLastName() + "'," + e.getMaxHours()+"";
+        String values = "'"+e.getFirstName() + "', '" + e.getLastName() + "'," + e.getMaxHours()+ ", "+e.isManager() + "";
         StringBuilder query = new StringBuilder();
-        query.append("INSERT INTO EMPLOYEE(firstName, lastName, maxHours) VALUES("+values+");");
+        query.append("INSERT INTO EMPLOYEE(firstName, lastName, maxHours, isManager) VALUES("+values+");");
         try {
             database.insert(query.toString());
         } catch (SQLException e1) {

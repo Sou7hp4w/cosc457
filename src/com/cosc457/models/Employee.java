@@ -10,21 +10,26 @@ public class Employee {
     private String lastName;
     private int maxHours;
     private int ID;
+    private boolean isManager;
 
     public Employee(){
 
     }
 
-    public Employee(String firstName, String lastName, int maxHours){
+    public Employee(String firstName, String lastName, int maxHours, boolean isManager){
         this.firstName = firstName;
         this.lastName = lastName;
         this.maxHours = maxHours;
+        this.isManager = isManager;
     }
-    public Employee(String firstName, String lastName, int maxHours, int ID){
+
+    public Employee(String firstName, String lastName, int maxHours, int ID, boolean isManager){
         this.firstName = firstName;
         this.lastName = lastName;
         this.maxHours = maxHours;
         this.ID = ID;
+        this.isManager = isManager;
+
     }
 
     public String getFirstName() {
@@ -42,6 +47,14 @@ public class Employee {
     public int getID() {
         return ID;
     }
+    public boolean isManager() {
+        return isManager;
+    }
+
+    public void setManager(boolean isManager) {
+        this.isManager = isManager;
+    }
+
     public String getFullName(){
         return firstName + " " + lastName;
     }

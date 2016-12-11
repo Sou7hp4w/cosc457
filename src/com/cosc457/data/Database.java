@@ -41,7 +41,7 @@ public class Database {
 
     public void initializeDatabase() throws SQLException {
         String check = "SHOW TABLES LIKE 'EMPLOYEE';";
-        String employeeCreation = "CREATE TABLE EMPLOYEE(ID INT AUTO_INCREMENT NOT NULL,firstName VARCHAR(45),lastName VARCHAR(45),maxHours VARCHAR(45),PRIMARY KEY(ID));";
+        String employeeCreation = "CREATE TABLE EMPLOYEE(ID INT AUTO_INCREMENT NOT NULL,firstName VARCHAR(45),lastName VARCHAR(45),maxHours VARCHAR(45), isManager BOOLEAN, PRIMARY KEY(ID));";
         String employeeAvailability = "CREATE TABLE EMPLOYEE_AVAILABILITY(ID INT AUTO_INCREMENT NOT NULL,employeeID INT,weekDay INT(1),startTime time,endTime time,PRIMARY KEY(ID),FOREIGN KEY(employeeID) REFERENCES EMPLOYEE(ID));";
         String scheduleCreation = "CREATE TABLE SCHEDULE(ID INT AUTO_INCREMENT NOT NULL,startDate date,endDate date,PRIMARY KEY(ID));";
         String shiftCreation = "CREATE TABLE SHIFT(ID INT AUTO_INCREMENT NOT NULL,employeeID INT,scheduleID INT,workDate date,startTime time,endTime time,PRIMARY KEY(ID),FOREIGN KEY(employeeID) REFERENCES EMPLOYEE(ID),FOREIGN KEY(scheduleID) REFERENCES SCHEDULE(ID));";
@@ -81,7 +81,7 @@ public class Database {
 
 
     private Employee parseEmployee(ResultSet set) throws SQLException {
-        return new Employee(set.getString("firstName"), set.getString("lastName"), set.getInt("maxHours"), set.getInt("ID"));
+        return new Employee(set.getString("firstName"), set.getString("lastName"), set.getInt("maxHours"), set.getInt("ID"), set.getBoolean("isManager"));
     }
     private Availability parseAvailability(ResultSet set) throws SQLException{
         return new Availability(set.getInt("ID"), set.getInt("employeeID"),set.getInt("weekDay"), set.getTime("startTime"), set.getTime("endTime"));

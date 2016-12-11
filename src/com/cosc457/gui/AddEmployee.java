@@ -18,6 +18,7 @@ public class AddEmployee extends JPanel{
     private JTextField hoursField;
     private JButton saveButton;
     private JButton backButton;
+    private JCheckBox managerEmployeeCheckBox;
 
     public AddEmployee(){
         initSaveButton();
@@ -36,7 +37,7 @@ public class AddEmployee extends JPanel{
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                EmployeeApi.saveEmployee(new Employee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(hoursField.getText())));
+                EmployeeApi.saveEmployee(new Employee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(hoursField.getText()), managerEmployeeCheckBox.isSelected()));
             }
         });
     }

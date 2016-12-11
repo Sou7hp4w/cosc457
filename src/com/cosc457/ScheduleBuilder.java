@@ -30,8 +30,10 @@ public class ScheduleBuilder {
         for(WorkDay day : WorkDay.getWorkDays()){
             for(Availability a : availabilities){
                 if(a.getWeekDay() == day.getDay()){
-                    if(day.needsFilled(a)){
+                    for(int hour = a.getStartTime().getHours(); hour < a.getEndTime().getHours(); hour++){
+                        //if(day.needsFilled(hour, a)){
 
+                        //}
                     }
                 }
             }
