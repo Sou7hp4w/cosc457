@@ -50,7 +50,7 @@ public class CreateSchedule extends JPanel{
         createScheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new ScheduleBuilder((Date)startDateSpinner.getValue(), (Date)endDateSpinner.getValue(), progressBar);
+                new ScheduleBuilder((Date)startDateSpinner.getValue(), (Date)endDateSpinner.getValue(), progressBar).build();
             }
         });
     }

@@ -31,6 +31,7 @@ public class ScheduleBuilder {
 
     public void build(){
         for(WorkDay day : workdays){
+            progressBar.setValue(progressBar.getValue()+12);
             for(Availability a : availabilities){
                 if(a.getWeekDay() == day.getDay()){
                     for(double startTime = DateUtil.get100OffsetTime(a.getStartTime()); startTime < DateUtil.get100OffsetTime(a.getEndTime()); startTime+=.25){
@@ -40,8 +41,8 @@ public class ScheduleBuilder {
                     }
                 }
             }
-            progressBar.setValue(progressBar.getValue()+5);
         }
+        progressBar.setValue(70);
         condense();
     }
 
@@ -91,10 +92,11 @@ public class ScheduleBuilder {
                 }
             }
         }
-
+        progressBar.setValue(90);
         for(Shift s : shifts){
             ShiftApi.saveShift(s);
         }
+        progressBar.setValue(100);
 
         System.out.println("DONE");
 
