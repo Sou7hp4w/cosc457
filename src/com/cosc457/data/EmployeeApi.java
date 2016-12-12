@@ -23,6 +23,18 @@ public class EmployeeApi {
         }
     }
 
+    public static void deleteEmployee(Employee e){
+        String first_name = e.getFirstName();
+        String last_name = e.getLastName();
+        StringBuilder query = new StringBuilder();
+        query.append("DELETE FROM EMPLOYEE WHERE firstName ='"+first_name+"' AND lastName ='"+last_name+"';");
+        try {
+            database.insert(query.toString());
+        } catch (SQLException e2) {
+            e2.printStackTrace();
+        }
+    }
+
     public static ArrayList<Employee> getAllEmployees(){
         ArrayList<Employee> result = new ArrayList<Employee>();
         String query = "SELECT * FROM EMPLOYEE";
