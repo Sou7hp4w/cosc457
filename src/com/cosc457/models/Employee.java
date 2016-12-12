@@ -11,6 +11,7 @@ public class Employee {
     private int maxHours;
     private int ID;
     private boolean isManager;
+    private double tempHours;
 
     public Employee(){
 
@@ -21,6 +22,7 @@ public class Employee {
         this.lastName = lastName;
         this.maxHours = maxHours;
         this.isManager = isManager;
+        tempHours = maxHours;
     }
 
     public Employee(String firstName, String lastName, int maxHours, int ID, boolean isManager){
@@ -29,6 +31,7 @@ public class Employee {
         this.maxHours = maxHours;
         this.ID = ID;
         this.isManager = isManager;
+        tempHours = maxHours;
 
     }
 
@@ -59,8 +62,13 @@ public class Employee {
         return firstName + " " + lastName;
     }
 
+    public void reduceTempHours(){
+        tempHours = tempHours -.25;
+    }
 
-
+    public double getTempHours() {
+        return tempHours;
+    }
 
     @Override
     public String toString(){

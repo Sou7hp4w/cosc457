@@ -33,13 +33,17 @@ public class ScheduleBuilder {
         for(WorkDay day : workdays){
             progressBar.setValue(progressBar.getValue()+12);
             for(Availability a : availabilities){
-                if(a.getWeekDay() == day.getDay()){
-                    for(double startTime = DateUtil.get100OffsetTime(a.getStartTime()); startTime < DateUtil.get100OffsetTime(a.getEndTime()); startTime+=.25){
-                        if(day.needsFilled(startTime)){
-                            day.fill(startTime, a);
+                if(employeeAvailabile(a.getEmployeeID())){
+                    if(a.getWeekDay() == day.getDay()){
+                        for(double startTime = DateUtil.get100OffsetTime(a.getStartTime()); startTime < DateUtil.get100OffsetTime(a.getEndTime()); startTime+=.25){
+                            if(day.needsFilled(startTime)){
+                                day.fill(startTime, a);
+                                decrementTimeLimit(a.getEmployeeID());
+                            }
                         }
                     }
                 }
+
             }
         }
         progressBar.setValue(70);
@@ -97,10 +101,30 @@ public class ScheduleBuilder {
             ShiftApi.saveShift(s);
         }
         progressBar.setValue(100);
-
         System.out.println("DONE");
 
     }
+
+
+    public void decrementTimeLimit(int id){
+        for(Employee e : employees){
+            if(e.getID() == id){
+                e.reduceTempHours();
+            }
+        }
+    }
+    private boolean employeeAvailabile(int id){
+        for(Employee e : employees){
+            if(e.getID() == id){
+                if(e.getTempHours() > 0){
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
 
 
 
