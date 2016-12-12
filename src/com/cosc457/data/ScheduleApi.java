@@ -38,5 +38,19 @@ public class ScheduleApi {
         return s;
     }
 
+    public static ArrayList<Schedule> getAllSchedules(){
+        ArrayList<Schedule> result = new ArrayList<Schedule>();
+        String query = "SELECT * FROM SCHEDULE";
+        try {
+            for(Object o : database.retrieve(query, Schedule.class)){
+                result.add((Schedule)o);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 
 }

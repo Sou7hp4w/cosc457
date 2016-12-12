@@ -20,14 +20,17 @@ public class Navigation extends JPanel{
     AddAvailability addAvailability = new AddAvailability();
     ViewAvailability viewAvailability = new ViewAvailability();
     CreateSchedule createSchedule = new CreateSchedule();
+    ViewSchedules viewSchedules = new ViewSchedules();
 
     public static Navigation INSTANCE;
     private JButton addEmployeeButton;
     private JButton viewEmployeesButton;
     private JButton addAvailabilityButton;
     private JButton viewAvailabilityButton;
-    private JButton generateSeedDataButton;
     private JButton createScheduleButton;
+    private JButton viewSchedulesButton;
+
+    private JButton generateSeedDataButton;
 
     private Navigation(){
         super(new BorderLayout());
@@ -51,12 +54,14 @@ public class Navigation extends JPanel{
         viewAvailabilityButton = new JButton("View Availability");
         generateSeedDataButton = new JButton("Generate Seed Data");
         createScheduleButton = new JButton("Create Schedule");
+        viewSchedulesButton = new JButton("View Schedule");
         navigationPanel.add(addEmployeeButton);
         navigationPanel.add(viewEmployeesButton);
         navigationPanel.add(addAvailabilityButton);
         navigationPanel.add(viewAvailabilityButton);
         navigationPanel.add(generateSeedDataButton);
         navigationPanel.add(createScheduleButton);
+        navigationPanel.add(viewSchedulesButton);
     }
 
     private void initListeners(){
@@ -109,6 +114,15 @@ public class Navigation extends JPanel{
                 remove(getComponent(0));
                 add(createSchedule.getPanel());
                 createSchedule.load();
+                redraw();
+            }
+        });
+        viewSchedulesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                remove(getComponent(0));
+                add(viewSchedules.getPanel());
+                viewSchedules.load();
                 redraw();
             }
         });
