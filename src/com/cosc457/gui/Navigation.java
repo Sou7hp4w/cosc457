@@ -146,6 +146,13 @@ public class Navigation extends JPanel{
         redraw();
     }
 
+    public void replace(JPanel panel){
+        remove(getComponent(0));
+        add(panel);
+        redraw();
+
+    }
+
     public void redraw(){
         repaint();
         revalidate();

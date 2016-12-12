@@ -33,12 +33,14 @@ public class ViewSchedules extends JPanel {
 
     public void load(){
         JPanel wrapper = new JPanel();
-        for(Schedule s : ScheduleApi.getAllSchedules()){
+        for(final Schedule s : ScheduleApi.getAllSchedules()){
             JButton b = new JButton(s.toString());
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    
+                    ViewShifts viewShifts = new ViewShifts(s);
+                    Navigation.getInstance().replace(viewShifts.getPanel());
+                    viewShifts.load();
                 }
             });
             wrapper.add(b);

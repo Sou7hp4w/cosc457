@@ -3,6 +3,7 @@ package com.cosc457.data;
 import com.cosc457.models.Availability;
 import com.cosc457.models.Employee;
 import com.cosc457.models.Schedule;
+import com.cosc457.models.Shift;
 
 import javax.swing.plaf.nimbus.State;
 import java.lang.reflect.Method;
@@ -76,6 +77,8 @@ public class Database {
                 results.add(parseAvailability(set));
             }else if(type.equals(Schedule.class)){
                 results.add(parseSchedule(set));
+            }else if(type.equals(Shift.class)){
+                results.add(parseShift(set));
             }
 
         }
@@ -91,5 +94,9 @@ public class Database {
     }
     private Schedule parseSchedule(ResultSet set) throws SQLException{
         return new Schedule(set.getInt("ID"), set.getDate("startDate"), set.getDate("endDate"));
+    }
+
+    private Shift parseShift(ResultSet set) throws SQLException{
+        return new Shift(set.getInt("ID"), set.getInt("employeeID"), set.getInt("workDay"), set.getInt("scheduleID"), set.getTime("startTime"), set.getTime("endTime"));
     }
 }
