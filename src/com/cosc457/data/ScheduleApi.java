@@ -25,12 +25,12 @@ public class ScheduleApi {
         }
     }
     public static Schedule getSchedule(Date startDate, Date endDate){
-        String query = "SELECT * FROM SCHEDULE WHERE startDate='"+new java.sql.Date(startDate.getTime()) + "' AND endDate = '" + new java.sql.Date(endDate.getTime()) + "'";
+        String query = "SELECT * FROM SCHEDULE WHERE startDate='"+new java.sql.Date(startDate.getTime()) + "' AND endDate = '" + new java.sql.Date(endDate.getTime()) + "' ORDER BY ID DESC";
         System.out.println(query);
         Schedule s = null;
         try {
            for(Object o : database.retrieve(query, Schedule.class)){
-                s = (Schedule)o;
+               return (Schedule)o;
             }
         } catch (SQLException e) {
             e.printStackTrace();
