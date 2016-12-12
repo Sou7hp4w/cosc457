@@ -25,8 +25,6 @@ public class AddAvailability extends JPanel {
     private JButton saveAndAddAnotherButton;
 
     public AddAvailability(){
-
-
         setupSaveButton();
         backButton.addActionListener(new ActionListener() {
             @Override

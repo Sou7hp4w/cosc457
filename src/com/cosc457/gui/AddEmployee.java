@@ -137,6 +137,8 @@ public class AddEmployee extends JPanel{
                     JOptionPane.showMessageDialog(null, "Employees can only work a maximum of 20 hours.");
                 }
                 else {
+                    String newEmployeeCreated = firstNameField.getText() + " " + lastNameField.getText() + " has been added to the database.";
+                    JOptionPane.showMessageDialog(null, newEmployeeCreated);
                     EmployeeApi.saveEmployee(new Employee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(hoursField.getText()), managerEmployeeCheckBox.isSelected()));
                 }
             }

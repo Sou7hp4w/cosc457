@@ -43,7 +43,7 @@ public class ViewAvailability extends JPanel{
         StringBuilder friday = new StringBuilder("<br>Friday</br>");
         for(Availability a : AvailabilityApi.getAllAvailabilities()){
            if(a.getWeekDay() == DayOfWeek.MONDAY.getValue()){
-               monday.append("<p>"+emps.get(a.getEmployeeID()).getFullName() + " " + DateUtil.getPrettyTime(a.getStartTime()) + " - " + DateUtil.getPrettyTime(a.getEndTime()) + "</p>");
+               monday.append("<p>"+emps.get(a.getEmployeeID()).getFullName() + " " + DateUtil.getPrettyTime(a.getStartTime()) + " - " + DateUtil.getPrettyTime(a.getEndTime()) + "</p><br>");
            }else if(a.getWeekDay() == DayOfWeek.TUESDAY.getValue()){
                tuesday.append("<p>" + emps.get(a.getEmployeeID()).getFullName() + " " + DateUtil.getPrettyTime(a.getStartTime()) + " - " + DateUtil.getPrettyTime(a.getEndTime()) + "</p><br>");
            }else if(a.getWeekDay() == DayOfWeek.WEDNESDAY.getValue()){

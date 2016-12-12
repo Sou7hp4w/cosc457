@@ -98,6 +98,8 @@ public class DeleteEmployee extends JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                String employeeDeleted = firstNameField.getText() + " " + lastNameField.getText() + " has been removed from the database.";
+                JOptionPane.showMessageDialog(null, employeeDeleted);
                 EmployeeApi.deleteEmployee(new Employee(firstNameField.getText(), lastNameField.getText(), 0, false));
             }
         });
