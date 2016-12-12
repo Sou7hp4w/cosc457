@@ -1,8 +1,11 @@
 package com.cosc457.data;
 
 import com.cosc457.models.Employee;
+import com.cosc457.models.Schedule;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by donnie on 11/30/16.
@@ -11,8 +14,8 @@ public class ScheduleApi {
 
     private static Database database = Database.getInstance();
 
-    public static void createSchedule(){
-        /*String values = "'"+e.getFirstName() + "', '" + e.getLastName() + "'," + e.getMaxHours()+"";
+    public static void saveSchedule(Schedule s){
+        String values = "'"+s.getStartDate() + "', '" + s.getEndDate() + "' ";
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO SCHEDULE(startDate, endDate) VALUES("+values+");");
         try {
@@ -20,7 +23,20 @@ public class ScheduleApi {
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
-        */
     }
+    public static Schedule getSchedule(Date startDate, Date endDate){
+        String query = "SELECT * FROM SCHEDULE WHERE startDate='"+new java.sql.Date(startDate.getTime()) + "' AND endDate = '" + new java.sql.Date(endDate.getTime()) + "'";
+        System.out.println(query);
+        Schedule s = null;
+        try {
+           for(Object o : database.retrieve(query, Schedule.class)){
+                s = (Schedule)o;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
 
 }

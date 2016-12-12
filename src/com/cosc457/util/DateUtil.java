@@ -5,7 +5,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+
 
 /**
  * Created by donnie on 11/30/16.
@@ -54,15 +56,43 @@ public class DateUtil {
         return null;
     }
     public static Time getTimeFromDouble(double t){
-        String time = String.valueOf(t).replace(".",":");
+        int hour = (int)Math.floor(t);
+        double minute = (t % 1) * 60;
+
+        StringBuilder b = new StringBuilder();
+        b.append(hour);
+        b.append(":");
+        b.append(minute);
+
         DateFormat format = new SimpleDateFormat("HH:mm");
         try {
-            return new Time(format.parse(time).getTime());
+            return new Time(format.parse(b.toString()).getTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    public static ArrayList<java.sql.Date> getFutureDates(){
+        ArrayList<java.sql.Date> dates = new ArrayList<java.sql.Date>();
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        Date d = new Date();
+        d.setHours(0);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        dates.add(new java.sql.Date(c.getTime().getTime()));
+        c.setTime(d);
+        while(dates.size() < 38){
+          c.add(Calendar.DATE, 1);
+            dates.add(new java.sql.Date(c.getTime().getTime()));
+        }
+        return dates;
+
+    }
+
 
     public static String getPrettyTime(Time t){
         DateFormat format = new SimpleDateFormat("hh:mm aa");

@@ -19,6 +19,7 @@ public class Navigation extends JPanel{
     ViewEmployee viewEmployee = new ViewEmployee();
     AddAvailability addAvailability = new AddAvailability();
     ViewAvailability viewAvailability = new ViewAvailability();
+    CreateSchedule createSchedule = new CreateSchedule();
 
     public static Navigation INSTANCE;
     private JButton addEmployeeButton;
@@ -26,7 +27,7 @@ public class Navigation extends JPanel{
     private JButton addAvailabilityButton;
     private JButton viewAvailabilityButton;
     private JButton generateSeedDataButton;
-    private JButton generateScheduleButton;
+    private JButton createScheduleButton;
 
     private Navigation(){
         super(new BorderLayout());
@@ -49,13 +50,13 @@ public class Navigation extends JPanel{
         addAvailabilityButton = new JButton("Add Availability");
         viewAvailabilityButton = new JButton("View Availability");
         generateSeedDataButton = new JButton("Generate Seed Data");
-        generateScheduleButton = new JButton("Generate Schedule");
+        createScheduleButton = new JButton("Create Schedule");
         navigationPanel.add(addEmployeeButton);
         navigationPanel.add(viewEmployeesButton);
         navigationPanel.add(addAvailabilityButton);
         navigationPanel.add(viewAvailabilityButton);
         navigationPanel.add(generateSeedDataButton);
-        navigationPanel.add(generateScheduleButton);
+        navigationPanel.add(createScheduleButton);
     }
 
     private void initListeners(){
@@ -102,10 +103,13 @@ public class Navigation extends JPanel{
                 navigationPanel.add(done);
             }
         });
-        generateScheduleButton.addActionListener(new ActionListener() {
+        createScheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new ScheduleBuilder().build();
+                remove(getComponent(0));
+                add(createSchedule.getPanel());
+                createSchedule.load();
+                redraw();
             }
         });
     }

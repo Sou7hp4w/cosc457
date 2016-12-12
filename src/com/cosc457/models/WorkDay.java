@@ -21,7 +21,7 @@ public class WorkDay {
     }
 
     private void genMap(){
-        for(double i = 7.00; i < 18.00; i+=.25){
+        for(double i = 7.00; i <= 19.45; i+=.25){
             timeAvailabilityMap.put(i, new AvailabilityBundle());
         }
     }

@@ -2,6 +2,7 @@ package com.cosc457.data;
 
 import com.cosc457.models.Availability;
 import com.cosc457.models.Employee;
+import com.cosc457.models.Schedule;
 
 import javax.swing.plaf.nimbus.State;
 import java.lang.reflect.Method;
@@ -44,7 +45,7 @@ public class Database {
         String employeeCreation = "CREATE TABLE EMPLOYEE(ID INT AUTO_INCREMENT NOT NULL,firstName VARCHAR(45),lastName VARCHAR(45),maxHours VARCHAR(45), isManager BOOLEAN, PRIMARY KEY(ID));";
         String employeeAvailability = "CREATE TABLE EMPLOYEE_AVAILABILITY(ID INT AUTO_INCREMENT NOT NULL,employeeID INT,weekDay INT(1),startTime time,endTime time,PRIMARY KEY(ID),FOREIGN KEY(employeeID) REFERENCES EMPLOYEE(ID));";
         String scheduleCreation = "CREATE TABLE SCHEDULE(ID INT AUTO_INCREMENT NOT NULL,startDate date,endDate date,PRIMARY KEY(ID));";
-        String shiftCreation = "CREATE TABLE SHIFT(ID INT AUTO_INCREMENT NOT NULL,employeeID INT,scheduleID INT,workDate date,startTime time,endTime time,PRIMARY KEY(ID),FOREIGN KEY(employeeID) REFERENCES EMPLOYEE(ID),FOREIGN KEY(scheduleID) REFERENCES SCHEDULE(ID));";
+        String shiftCreation = "CREATE TABLE SHIFT(ID INT AUTO_INCREMENT NOT NULL,employeeID INT,scheduleID INT,workDay INT,startTime time,endTime time,PRIMARY KEY(ID),FOREIGN KEY(employeeID) REFERENCES EMPLOYEE(ID),FOREIGN KEY(scheduleID) REFERENCES SCHEDULE(ID));";
         Statement stmt=connection.createStatement();
         stmt.execute("use scheduler");
         ResultSet set = stmt.executeQuery(check);
@@ -73,6 +74,8 @@ public class Database {
                 results.add(parseEmployee(set));
             }else if(type.equals(Availability.class)){
                 results.add(parseAvailability(set));
+            }else if(type.equals(Schedule.class)){
+                results.add(parseSchedule(set));
             }
 
         }
@@ -86,5 +89,7 @@ public class Database {
     private Availability parseAvailability(ResultSet set) throws SQLException{
         return new Availability(set.getInt("ID"), set.getInt("employeeID"),set.getInt("weekDay"), set.getTime("startTime"), set.getTime("endTime"));
     }
-
+    private Schedule parseSchedule(ResultSet set) throws SQLException{
+        return new Schedule(set.getInt("ID"), set.getDate("startDate"), set.getDate("endDate"));
+    }
 }

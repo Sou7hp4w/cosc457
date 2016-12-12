@@ -37,11 +37,26 @@ public class AvailabilityBundle {
     public Availability getStaff() {
         return staff;
     }
-    public void removeManager(){
-        manager = null;
+
+    public boolean containsEmployee(int id){
+        if(manager != null && staff != null){
+            return manager.getEmployeeID() == id || staff.getEmployeeID() == id;
+        }  else if(manager == null && staff != null){
+            return staff.getEmployeeID() == id;
+        }else if(manager != null && staff == null){
+            return manager.getEmployeeID() == id;
+        }
+        return false;
     }
-    public void removeStaff(){
-        staff = null;
+    public Availability getEmployee(int id){
+        return manager.getEmployeeID() == id ? manager : staff;
+    }
+    public void removeFromBundle(int id){
+        if(manager != null && manager.getEmployeeID() == id){
+            manager = null;
+        }else if(staff != null && staff.getEmployeeID() == id){
+            staff = null;
+        }
     }
 
     @Override

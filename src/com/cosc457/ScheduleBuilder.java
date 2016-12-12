@@ -1,11 +1,12 @@
 package com.cosc457;
 
-import com.cosc457.data.AvailabilityApi;
-import com.cosc457.data.EmployeeApi;
+import com.cosc457.data.*;
 import com.cosc457.models.*;
 import com.cosc457.util.DateUtil;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -16,7 +17,13 @@ public class ScheduleBuilder {
     private ArrayList<Employee> employees;
     private ArrayList<Availability> availabilities;
     private ArrayList<WorkDay> workdays;
-    public ScheduleBuilder(){
+    private Schedule schedule;
+    private JProgressBar progressBar;
+    public ScheduleBuilder(Date startDate, Date endDate, JProgressBar progressBar){
+        schedule = new Schedule(startDate, endDate);
+        this.progressBar = progressBar;
+        ScheduleApi.saveSchedule(schedule);
+        schedule = ScheduleApi.getSchedule(schedule.getStartDate(), schedule.getEndDate());
         employees = EmployeeApi.getAllEmployees();
         availabilities = AvailabilityApi.getAllAvailabilities();
         workdays = WorkDay.getWorkDays();
@@ -33,8 +40,9 @@ public class ScheduleBuilder {
                     }
                 }
             }
-            day.printPretty();
+            progressBar.setValue(progressBar.getValue()+5);
         }
+        condense();
     }
 
     public void condense(){
@@ -45,27 +53,51 @@ public class ScheduleBuilder {
                 AvailabilityBundle bundle = timeMap.get(d);
                 Availability managerAvailability = bundle.getManager();
                 Availability staffAvailability = bundle.getStaff();
-                Shift managerShift = new Shift(managerAvailability.getEmployeeID(),w.getDay(), DateUtil.getTimeFromDouble(d), DateUtil.getTimeFromDouble(d+.25));
-                Shift staffShift = new Shift(staffAvailability.getEmployeeID(), w.getDay(), DateUtil.getTimeFromDouble(d), DateUtil.getTimeFromDouble(d+.25));
-                
-                /*
-                int firstId = bundle.getManager().getEmployeeID();
-                double startTimeKey = d;
-                double endTimeKey = d+.25;
-                boolean isNext = true;
-                do{
-                   double nextKey = startTimeKey+.25;
-                   if(timeMap.get(nextKey).getManager().getEmployeeID() == firstId){
-                       endTimeKey = nextKey;
-                       timeMap.get(nextKey).removeManager();
-                       endTimeKey=+.25;
-                   }
-                }while(isNext);
-                */
-
-                bundle.getManager().getStartTime();
+                Shift managerShift = null;
+                Shift staffShift = null;
+                if(managerAvailability != null){
+                   managerShift = new Shift(managerAvailability.getEmployeeID(),w.getDay(),schedule.getID(), DateUtil.getTimeFromDouble(d), DateUtil.getTimeFromDouble(d + .25));
+                }
+                if(staffAvailability != null){
+                    staffShift = new Shift(staffAvailability.getEmployeeID(), w.getDay(),schedule.getID(), DateUtil.getTimeFromDouble(d), DateUtil.getTimeFromDouble(d+.25));
+                }
+                boolean recurse = true;
+                double nextKey = d;
+                while(recurse){
+                    nextKey = nextKey+.25;
+                    recurse = false;
+                    if(timeMap.get(nextKey) != null){
+                        AvailabilityBundle nextBundle = timeMap.get(nextKey);
+                        if(managerAvailability != null && nextBundle.containsEmployee(managerAvailability.getEmployeeID())){
+                            recurse = true;
+                            managerShift.setEndTime(DateUtil.getTimeFromDouble(nextKey+.25));
+                            nextBundle.removeFromBundle(managerAvailability.getEmployeeID());
+                        }
+                        if(staffAvailability != null && nextBundle.containsEmployee(staffAvailability.getEmployeeID())){
+                            recurse = true;
+                            staffShift.setEndTime(DateUtil.getTimeFromDouble(nextKey+.25));
+                            nextBundle.removeFromBundle(staffAvailability.getEmployeeID());
+                        }
+                    }else{
+                        System.out.println("NEXT IS NULL " + nextKey);
+                        recurse = false;
+                    }
+                }
+                if(managerShift != null){
+                    shifts.add(managerShift);
+                }
+                if(staffShift != null){
+                    shifts.add(staffShift);
+                }
             }
         }
+
+        for(Shift s : shifts){
+            ShiftApi.saveShift(s);
+        }
+
+        System.out.println("DONE");
+
     }
 
 
